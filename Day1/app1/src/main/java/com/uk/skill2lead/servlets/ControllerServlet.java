@@ -1,4 +1,15 @@
-package com.seed;
+package com.uk.skill2lead.servlets;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.uk.skill2lead.dao.CarDAO;
+import com.uk.skill2lead.dao.impl.CarDaoImpl;
+import com.uk.skill2lead.utils.DBUtility;
 
 //TODO 1 Import appropriate classes
 
@@ -21,7 +32,8 @@ public class ControllerServlet extends HttpServlet
     private static final String EDIT_CAR_ACTION = "editCar";
     private static final String DELETE_CAR_ACTION = "deleteCar";
     private static final String ERROR_KEY = "errorMessage";
-
+    private CarDAO carDao = new CarDaoImpl();
+    
     public void doGet(HttpServletRequest request, HttpServletResponse response)
             throws IOException, ServletException {
 		
@@ -40,11 +52,13 @@ public class ControllerServlet extends HttpServlet
      * @throws ServletException		if error occurs
      * @throws IOException			if error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    public void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String actionName = request.getParameter(ACTION_KEY);
         String destinationPage = null; 
-        CarDAO carDAO = DBUtility.getCarDAO();
+        
+        		
+        		//DBUtility.getCarDAO();
         
         // perform action
         if(VIEW_CAR_LIST_ACTION.equals(actionName))
@@ -53,7 +67,7 @@ public class ControllerServlet extends HttpServlet
 			//Use carDao to get the list of the cars
 			//Set the list in request with attribute name as 'carList'
 			//Set the destination page to carList.jsp
-			
+			carDao.findAll();
         }
         else if(ADD_CAR_ACTION.equals(actionName))
         {
@@ -104,4 +118,16 @@ public class ControllerServlet extends HttpServlet
 		//appropriate destination page set in above if else blocks depending on action.
         
     }
+
+	public void setCarDAO(CarDAO daoRef) {
+		// TODO Auto-generated method stub
+		carDao = daoRef;
+		
+	}
+	
+	public CarDAO getCarDAO() {
+		// TODO Auto-generated method stub
+		return carDao;
+		
+	}
 }
